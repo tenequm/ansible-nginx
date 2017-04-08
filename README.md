@@ -1,5 +1,6 @@
 ansible-nginx
 =========
+[![Build Status](https://travis-ci.org/1nfinitum/ansible-nginx.svg?branch=master)](https://travis-ci.org/1nfinitum/ansible-nginx)
 
 This role installs nginx on the server, currently it works only with Ubuntu 16.04 LTS, it's just a skeleton that fits for now and I'm going to make it more flexible and useful with the time of use.
 
