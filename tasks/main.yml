@@ -3,7 +3,7 @@
   apt_repository: repo="ppa:nginx/development" state=present
 
 - name: Install nginx.
-  apt: name=nginx state=present
+  apt: name=nginx state=present update_cache=yes
   notify: restart nginx
 
 - name: Ensure nginx is started and enabled to start on boot.
