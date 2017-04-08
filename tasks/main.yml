@@ -1,0 +1,10 @@
+---
+- name: Adding repository to get `stable` version.
+  apt_repository: repo="ppa:nginx/development" state=present
+
+- name: Install nginx.
+  apt: name=nginx state=present
+  notify: restart nginx
+
+- name: Ensure nginx is started and enabled to start on boot.
+  service: name=nginx state=started enabled=yes

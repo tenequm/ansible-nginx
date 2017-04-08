@@ -1,0 +1,8 @@
+---
+- name: Testing installation process.
+  hosts: localhost
+  remote_user: root
+  gather_facts: False
+
+  roles:
+    - ansible-nginx
