@@ -1,0 +1,39 @@
+user {{ nginx_user|d('www-data') }}{{ (' ' ~ nginx_group) if nginx_group is defined else none }};
+worker_processes {{ nginx_worker_processes|d('auto') }};
+
+pid {{ nginx_pid|d('/var/run/nginx.pid') }};
+
+events {
+        use epoll;
+        worker_connections {{ nginx_worker_connections|d('1024') }};
+        multi_accept on;
+}
+
+http {
+{% if nginx_enable_rewrite_log|d(false) %}
+        rewrite_log on;
+{% endif %}
+        index index.php index.htm index.html;
+        include mime.types;
+        default_type application/octet-stream;
+
+        error_log {{ nginx_error_log|d('/var/log/nginx/error.log') }};
+        access_log {{ nginx_access_log|d('/var/log/nginx/access.log') }};
+
+        sendfile on;
+        tcp_nopush on;
+        tcp_nodelay on;
+        keepalive_timeout {{ nginx_keepalive_timeout|d('3') }};
+        keepalive_requests {{ nginx_keepalive_requests|d('100') }};
+        reset_timedout_connection on;
+        send_timeout 2;
+        client_body_timeout 10;
+        client_max_body_size 13m;
+
+        gzip on;
+        gzip_disable "msie6";
+        gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript;
+
+        include /etc/nginx/conf.d/*.conf;
+        include /etc/nginx/sites-enabled/*;
+}
